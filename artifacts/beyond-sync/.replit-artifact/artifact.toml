@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Beyond Sync"
+description = "A lightweight catalog demo connecting independent South Asian artists with music supervisors around the world, with searchable sync-ready music and artist catalog discovery."
+version = "1.0.0"
+id = "artifacts/beyond-sync"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22778
+
+[services.development]
+run = "pnpm --filter @workspace/beyond-sync run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/beyond-sync", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/beyond-sync/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22778"
+BASE_PATH = "/"
